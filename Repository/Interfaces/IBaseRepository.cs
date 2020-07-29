@@ -11,5 +11,6 @@ namespace Repository.Interfaces
         Task<T> FindById(long id);
         Task<TR> FindByIdAs<TR>(long id);
         Task Save(T entity);
+        Task Delete(T entity);
     }
 }

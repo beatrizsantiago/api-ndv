@@ -55,5 +55,42 @@ namespace WebApplication.Controllers
             return Ok(lifes);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateLifeViewModel viewModel)
+        {
+            var life = await _lifeService.FindById(viewModel.Id);
+
+            life.Name = viewModel.Name;
+            life.Phone = viewModel.Phone;
+            life.Email = viewModel.Email;
+            life.Birthday = viewModel.Birthday;
+
+            try
+            {
+                await _lifeService.Save(life);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var life = await _lifeService.FindById(id);
+            try
+            {
+                await _lifeService.Delete(life);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

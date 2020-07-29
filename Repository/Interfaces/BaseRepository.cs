@@ -72,5 +72,11 @@ namespace Repository.Interfaces
 
             await context.SaveChangesAsync();
         }
+
+        public Task Delete(T entity)
+        {
+            Set.Remove(entity);
+            return context.SaveChangesAsync();
+        }
     }
 }
