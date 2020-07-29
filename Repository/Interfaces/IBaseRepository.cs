@@ -6,9 +6,10 @@ namespace Repository.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseEntity, new()
     {
-        // get findById save getAs findByIdAs
-        Task <IPagedList<T>> Get(int pageIndex, int pageLimit);
-        Task <T> FindById(long id);
+        Task<IPagedList<T>> Get(int pageIndex, int pageLimit);
+        Task<IPagedList<TR>> GetAs<TR>(int pageIndex, int pageLimit);
+        Task<T> FindById(long id);
+        Task<TR> FindByIdAs<TR>(long id);
         Task Save(T entity);
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using WebApplication.ViewModels.Inputs.Life;
+using WebApplication.ViewModels.Output.Life;
 
 namespace WebApplication.Controllers
 {
@@ -46,5 +47,13 @@ namespace WebApplication.Controllers
             }
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> List(int pageIndex = 1, int pageLimit = 10)
+        {
+            var lifes = await _lifeService.GetAs<PreviewLifeViewModel>(pageIndex, pageLimit);
+            return Ok(lifes);
+        }
+
     }
 }

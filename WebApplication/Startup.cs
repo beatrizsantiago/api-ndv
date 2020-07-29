@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -61,6 +62,8 @@ namespace WebApplication
             services.AddScoped<ILifeService, LifeService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddScoped<IProgressStepsLifeService, ProgressStepsLifeService>();
+
+            services.AddAutoMapper(GetType().Assembly);
 
             services.AddAuthentication().AddJwtBearer("Bearer", options =>
             {

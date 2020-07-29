@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
@@ -12,11 +14,13 @@ namespace Repository.Interfaces
     {
         protected readonly ApplicationContext context;
         protected readonly DbSet<T> Set;
+        protected readonly IMapper mapper;
 
-        protected BaseRepository(ApplicationContext context)
+        protected BaseRepository(ApplicationContext context, IMapper mapper)
         {
             this.context = context;
             this.Set = context.Set<T>();
+            this.mapper = mapper;
         }
 
         public Task<T> FindById(long id)
@@ -24,9 +28,19 @@ namespace Repository.Interfaces
             return Set.FindAsync(id).AsTask();
         }
 
+        public Task<TR> FindByIdAs<TR>(long id)
+        {
+            return Set.Where(e => e.Id == id).ProjectTo<TR>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
+        }
+
         public Task<IPagedList<T>> Get(int pageIndex, int pageLimit)
         {
             return Set.ToPagedListAsync(pageIndex, pageLimit);
+        }
+
+        public Task<IPagedList<TR>> GetAs<TR>(int pageIndex, int pageLimit)
+        {
+            return Set.ProjectTo<TR>(mapper.ConfigurationProvider).ToPagedListAsync(pageIndex, pageLimit);
         }
 
         public async Task Save(T entity)
