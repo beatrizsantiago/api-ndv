@@ -12,7 +12,7 @@ using WebApplication.ViewModels.Inputs.Account;
 
 namespace WebApplication.Controllers
 {
-    [Route("account")]
+    [Route("api/account")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -67,7 +67,8 @@ namespace WebApplication.Controllers
 
                 var accessToken = handler.WriteToken(securityToken);
 
-                return Ok(new {
+                return Ok(new
+                {
                     created = createdDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     accessToken
@@ -77,6 +78,25 @@ namespace WebApplication.Controllers
             {
                 return BadRequest(new { Message = "Usuário/Senha não estão coincidem." });
             }
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountViewModel viewModel)
+        {
+            var user = new User
+            {
+                Email = viewModel.Email,
+                UserName = viewModel.Email,
+                IsEnabled = true,
+                Name = viewModel.Name,
+                Phone = viewModel.Phone,
+                EmailConfirmed = true
+            };
+            var result = await _userManager.CreateAsync(user, viewModel.Password);
+            if (result.Succeeded)
+                return Ok("Conta cadastrada com êxito");
+            else
+                return BadRequest(result.Errors);
         }
     }
 }

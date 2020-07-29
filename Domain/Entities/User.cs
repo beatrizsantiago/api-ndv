@@ -7,6 +7,7 @@ namespace Domain.Entities
     public class User : IdentityUser<long>
     {
         public string Name { get; set; }
+        public string Phone { get; set; }
         public bool IsEnabled { get; set; }
         public string PhotoProfile { get; set; }
         public string Mentor { get; set; }
