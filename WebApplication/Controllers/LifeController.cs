@@ -30,7 +30,9 @@ namespace WebApplication.Controllers
                 Name = viewModel.Name,
                 Phone = viewModel.Phone,
                 Email = viewModel.Email,
-                Birthday = viewModel.Birthday
+                Birthday = viewModel.Birthday,
+                IsBaptismOhterChurch = viewModel.IsBaptismOhterChurch,
+                MinisterBaptism = viewModel.MinisterBaptism
             };
 
             var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
@@ -64,6 +66,8 @@ namespace WebApplication.Controllers
             life.Phone = viewModel.Phone;
             life.Email = viewModel.Email;
             life.Birthday = viewModel.Birthday;
+            life.IsBaptismOhterChurch = viewModel.IsBaptismOhterChurch;
+            life.MinisterBaptism = viewModel.MinisterBaptism;
 
             try
             {

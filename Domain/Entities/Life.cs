@@ -9,6 +9,9 @@ namespace Domain.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime Birthday { get; set; }
+        public bool IsLost { get; set; }
+        public bool IsBaptismOhterChurch { get; set; }
+        public string MinisterBaptism { get; set; }
         public long IntegradorId { get; set; }
 
         public virtual User Integrador { get; set; }
