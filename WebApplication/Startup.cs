@@ -35,7 +35,16 @@ namespace WebApplication
             {
                 options
                     .UseLazyLoadingProxies()
-                    .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL").ToConnectionString()??Configuration.GetConnectionString("Default"));
+                    .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL").ToConnectionString() ?? Configuration.GetConnectionString("Default"));
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "Default",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                    });
             });
 
             services
@@ -102,6 +111,8 @@ namespace WebApplication
             }
 
             context.Database.Migrate();
+
+            app.UseCors("Default");
 
             app.UseHttpsRedirection();
 
