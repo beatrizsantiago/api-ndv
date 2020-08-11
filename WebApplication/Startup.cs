@@ -40,7 +40,7 @@ namespace WebApplication
 
             services.AddCors(options =>
             {
-                options.AddPolicy(name: "Default",
+                options.AddDefaultPolicy(
                     builder =>
                     {
                         builder.AllowAnyOrigin();
@@ -112,7 +112,7 @@ namespace WebApplication
 
             context.Database.Migrate();
 
-            app.UseCors("Default");
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
