@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Repository;
+using Repository.Extensions;
 using Repository.Interfaces;
 using Repository.Services;
 using WebApplication.Configurations;
@@ -34,7 +35,7 @@ namespace WebApplication
             {
                 options
                     .UseLazyLoadingProxies()
-                    .UseNpgsql(Configuration.GetConnectionString("Default"));
+                    .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL").ToConnectionString()??Configuration.GetConnectionString("Default"));
             });
 
             services
