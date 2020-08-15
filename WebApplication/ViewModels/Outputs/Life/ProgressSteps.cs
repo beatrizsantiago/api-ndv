@@ -5,7 +5,17 @@ namespace WebApplication.ViewModels.Output.Life
 {
     public class ProgressStepsViewModel
     {
-        public DateTime Date { get; set; }
+        public ProgressStepsViewModel()
+        {
+            
+        }
+
+        public ProgressStepsViewModel(DateTime date)
+        {
+            this.Date = date;
+        }
+
+        public DateTime? Date { get; set; }
         public StepsPropheticWay Step { get; set; }
     }
 }

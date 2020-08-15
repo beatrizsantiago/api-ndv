@@ -35,6 +35,7 @@ namespace WebApplication
             {
                 options
                     .UseLazyLoadingProxies()
+                    .EnableSensitiveDataLogging()
                     .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL").ToConnectionString() ?? Configuration.GetConnectionString("Default"));
             });
 

@@ -23,12 +23,12 @@ namespace Repository.Interfaces
             this.mapper = mapper;
         }
 
-        public Task<T> FindById(long id)
+        public virtual Task<T> FindById(long id)
         {
             return Set.FindAsync(id).AsTask();
         }
 
-        public Task<TR> FindByIdAs<TR>(long id)
+        public virtual Task<TR> FindByIdAs<TR>(long id)
         {
             return Set.Where(e => e.Id == id).ProjectTo<TR>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }

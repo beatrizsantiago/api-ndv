@@ -90,6 +90,27 @@ namespace WebApplication.Controllers
             return Ok(lifes);
         }
 
+        [HttpPut("add-life-step")]
+        public async Task<IActionResult> AddLifeStep([FromBody] AddStepLifeViewModel viewModel)
+        {
+            var life = await _lifeService.FindById(viewModel.IdLife);
+            life.Steps.Add(new ProgressStepsLife{
+                CreatedDate = DateTime.Now,
+                Step = viewModel.Step,
+                DoneDate = viewModel.Date
+            });
+
+            try
+            {
+                await _lifeService.Save(life);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateLifeViewModel viewModel)
         {
