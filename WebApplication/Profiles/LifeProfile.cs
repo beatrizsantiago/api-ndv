@@ -11,7 +11,8 @@ namespace WebApplication.Profiles
         public LifeProfile()
         {
             CreateMap<Life, PreviewLifeViewModel>();
-            CreateMap<Life, DetailsLifeViewModel>();
+            CreateMap<Life, DetailsLifeViewModel>()
+                .ForMember(dest => dest.HistoricPropheticWay, options => options.MapFrom(src => src.Steps));
             CreateMap<User, PreviewIntegratorViewModel>();
             CreateMap<Feedback, PreviewFeedbackViewModel>()
                 .ForMember(dest => dest.Integrator, options => options.MapFrom(src => src.Integrator.Name));
