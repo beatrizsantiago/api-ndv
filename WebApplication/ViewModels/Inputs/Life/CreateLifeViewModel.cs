@@ -1,15 +1,18 @@
 using System;
+using Domain.Enums;
 
 namespace WebApplication.ViewModels.Inputs.Life
 {
     public class CreateLifeViewModel
     {
-        public string Name { get; set; }
+        public string FullName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public DateTime Birthday { get; set; }
-        public bool IsBaptismOhterChurch { get; set; }
-        public string MinisterBaptism { get; set; }
+        public bool BaptismOtherChurch { get; set; }
+        public string BaptismMinister { get; set; }
+        public bool BaptismToday { get; set; }
+        public StepsPropheticWay TypeConversion { get; set; } 
         
     }
 }

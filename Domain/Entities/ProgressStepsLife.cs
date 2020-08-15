@@ -7,6 +7,7 @@ namespace Domain.Entities
     {
         public string LifeId { get; set; }
         public StepsPropheticWay Step { get; set; }
+        public DateTime DoneDate {get; set;}
 
         public virtual Life Life { get; set; }
     }

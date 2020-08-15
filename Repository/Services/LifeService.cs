@@ -12,9 +12,9 @@ namespace Repository.Services
     {
         public LifeService(ApplicationContext context, IMapper mapper) : base(context, mapper) { }
 
-        public Task<List<Life>> GetByIntegrador(long integradorId)
+        public Task<List<Life>> GetByIntegrator(long integratorId)
         {
-            return Set.Where(life => life.IntegradorId == integradorId).ToListAsync();
+            return Set.Where(life => life.IntegratorId == integratorId).ToListAsync();
         }
     }
 }

@@ -6,6 +6,6 @@ namespace Repository.Interfaces
 {
     public interface ILifeService : IBaseRepository<Life>
     {
-        Task<List<Life>> GetByIntegrador(long integradorId);
+        Task<List<Life>> GetByIntegrator(long integratorId);
     }
 }

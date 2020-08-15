@@ -1,9 +1,12 @@
+using System;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
+using WebApplication.ViewModels.Inputs.CreateFeedback;
 using WebApplication.ViewModels.Inputs.Life;
 using WebApplication.ViewModels.Output.Life;
 
@@ -15,11 +18,13 @@ namespace WebApplication.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly ILifeService _lifeService;
+        private readonly IFeedbackService _feedbackService;
 
-        public LifeController(UserManager<User> userManager, ILifeService lifeService)
+        public LifeController(UserManager<User> userManager, ILifeService lifeService, IFeedbackService feedbackService)
         {
             _userManager = userManager;
             _lifeService = lifeService;
+            _feedbackService = feedbackService;
         }
 
         [HttpPost]
@@ -27,16 +32,37 @@ namespace WebApplication.Controllers
         {
             var life = new Life
             {
-                Name = viewModel.Name,
+                FullName = viewModel.FullName,
                 Phone = viewModel.Phone,
                 Email = viewModel.Email,
                 Birthday = viewModel.Birthday,
-                IsBaptismOhterChurch = viewModel.IsBaptismOhterChurch,
-                MinisterBaptism = viewModel.MinisterBaptism
+                BaptismOtherChurch = viewModel.BaptismOtherChurch,
+                BaptismMinister = viewModel.BaptismMinister
             };
 
             var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-            life.IntegradorId = user.Id;
+            life.IntegratorId = user.Id;
+
+            life.Steps.Add(new ProgressStepsLife
+            {
+                Step = StepsPropheticWay.Visitor,
+                DoneDate = DateTime.Now,
+            });
+
+            life.Steps.Add(new ProgressStepsLife
+            {
+                Step = viewModel.TypeConversion,
+                DoneDate = DateTime.Now,
+            });
+
+            if (viewModel.BaptismToday)
+            {
+                life.Steps.Add(new ProgressStepsLife
+                {
+                    Step = StepsPropheticWay.Baptism,
+                    DoneDate = DateTime.Now,
+                });
+            }
 
             try
             {
@@ -62,12 +88,11 @@ namespace WebApplication.Controllers
         {
             var life = await _lifeService.FindById(viewModel.Id);
 
-            life.Name = viewModel.Name;
+            life.FullName = viewModel.FullName;
             life.Phone = viewModel.Phone;
             life.Email = viewModel.Email;
             life.Birthday = viewModel.Birthday;
-            life.IsBaptismOhterChurch = viewModel.IsBaptismOhterChurch;
-            life.MinisterBaptism = viewModel.MinisterBaptism;
+            life.IntegratorId = viewModel.IntegratorId;
 
             try
             {
@@ -96,5 +121,42 @@ namespace WebApplication.Controllers
             }
         }
 
+        [HttpPost("life-lost/{id}")]
+        public async Task<IActionResult> LifeLost(long id)
+        {
+            var life = await _lifeService.FindById(id);
+            life.IsLost = true;
+            try
+            {
+                await _lifeService.Save(life);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("new-feedback")]
+        public async Task<IActionResult> NewFeedback([FromBody] CreateFeedbackViewModel viewModel)
+        {
+            var feedback = new Feedback{
+                LifeId = viewModel.LifeId,
+                Content = viewModel.Content
+            };
+
+            var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            feedback.IntegratorId = user.Id;
+
+            try
+            {
+                await _feedbackService.Save(feedback);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

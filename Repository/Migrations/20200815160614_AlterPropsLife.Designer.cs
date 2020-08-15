@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository;
@@ -9,9 +10,10 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200815160614_AlterPropsLife")]
+    partial class AlterPropsLife
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace Repository.Migrations
                     b.Property<bool>("Garbage")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("IntegratorId")
+                    b.Property<long>("IntegradorId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("LifeId")
@@ -46,7 +48,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IntegratorId");
+                    b.HasIndex("IntegradorId");
 
                     b.HasIndex("LifeId");
 
@@ -81,7 +83,7 @@ namespace Repository.Migrations
                     b.Property<bool>("Garbage")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("IntegratorId")
+                    b.Property<long>("IntegradorId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsLost")
@@ -95,7 +97,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IntegratorId");
+                    b.HasIndex("IntegradorId");
 
                     b.ToTable("Lifes");
                 });
@@ -108,9 +110,6 @@ namespace Repository.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp(0)");
-
-                    b.Property<DateTime>("DoneDate")
                         .HasColumnType("timestamp(0)");
 
                     b.Property<bool>("Garbage")
@@ -350,9 +349,9 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.Entities.Feedback", b =>
                 {
-                    b.HasOne("Domain.Entities.User", "Integrator")
+                    b.HasOne("Domain.Entities.User", "Integrador")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("IntegratorId")
+                        .HasForeignKey("IntegradorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -365,9 +364,9 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.Entities.Life", b =>
                 {
-                    b.HasOne("Domain.Entities.User", "Integrator")
+                    b.HasOne("Domain.Entities.User", "Integrador")
                         .WithMany("Lifes")
-                        .HasForeignKey("IntegratorId")
+                        .HasForeignKey("IntegradorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

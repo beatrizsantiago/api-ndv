@@ -8,9 +8,12 @@ namespace Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<Life> builder)
         {
-            builder.Property(e => e.Name).HasMaxLength(200);
+            builder.Property(e => e.FullName).HasMaxLength(200);
             builder.Property(e => e.Email).HasMaxLength(200);
-            builder.Property(e => e.Phone).HasMaxLength(20);
+            builder.Property(e => e.Phone).HasMaxLength(18);
+            builder.Property(e => e.IsLost).HasDefaultValue(false);
+            builder.Property(e => e.BaptismOtherChurch).HasDefaultValue(false);
+            builder.Property(e => e.BaptismMinister).HasMaxLength(200);
         }
     }
 }
