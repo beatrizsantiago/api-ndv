@@ -5,6 +5,12 @@ namespace Domain.Entities
 {
     public class Life : BaseEntity
     {
+        public Life()
+        {
+            Steps = new List<ProgressStepsLife>();
+            Feedbacks = new List<Feedback>();
+        }
+
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
