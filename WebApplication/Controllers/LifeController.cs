@@ -83,6 +83,13 @@ namespace WebApplication.Controllers
             return Ok(lifes);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Details(long id)
+        {
+            var lifes = await _lifeService.FindByIdAs<DetailsLifeViewModel>(id);
+            return Ok(lifes);
+        }
+
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateLifeViewModel viewModel)
         {
