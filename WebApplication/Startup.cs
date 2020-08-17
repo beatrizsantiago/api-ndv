@@ -113,11 +113,11 @@ namespace WebApplication
 
             context.Database.Migrate();
 
-            app.UseCors();
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
 
