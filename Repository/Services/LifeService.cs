@@ -14,11 +14,6 @@ namespace Repository.Services
     {
         public LifeService(ApplicationContext context, IMapper mapper) : base(context, mapper) { }
 
-        public override Task<IPagedList<TR>> GetAs<TR>(int pageIndex, int pageLimit)
-        {
-            return Set.Include(e => e.Steps).ProjectTo<TR>(mapper.ConfigurationProvider).ToPagedListAsync(pageIndex, pageLimit);
-        }
-
         public Task<List<Life>> GetByIntegrator(long integratorId)
         {
             return Set.Where(life => life.IntegratorId == integratorId).ToListAsync();

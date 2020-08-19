@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -19,12 +21,14 @@ namespace WebApplication.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILifeService _lifeService;
         private readonly IFeedbackService _feedbackService;
+        private readonly IMapper _mapper;
 
-        public LifeController(UserManager<User> userManager, ILifeService lifeService, IFeedbackService feedbackService)
+        public LifeController(UserManager<User> userManager, ILifeService lifeService, IFeedbackService feedbackService, IMapper mapper)
         {
             _userManager = userManager;
             _lifeService = lifeService;
             _feedbackService = feedbackService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -79,9 +83,10 @@ namespace WebApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> List(int pageIndex = 1, int pageLimit = 10)
         {
-            var lifes = await _lifeService.GetAs<PreviewLifeViewModel>(pageIndex, pageLimit);
+            var lifes = await _lifeService.Get(pageIndex, pageLimit);
+            var mappedLifes = _mapper.Map<List<PreviewLifeViewModel>>(lifes);
             
-            return Ok(lifes);
+            return Ok(mappedLifes);
         }
 
         [HttpGet("{id}")]
