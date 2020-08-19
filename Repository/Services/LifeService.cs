@@ -6,12 +6,18 @@ using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
+using X.PagedList;
 
 namespace Repository.Services
 {
     public class LifeService : BaseRepository<Life>, ILifeService
     {
         public LifeService(ApplicationContext context, IMapper mapper) : base(context, mapper) { }
+
+        public override Task<IPagedList<TR>> GetAs<TR>(int pageIndex, int pageLimit)
+        {
+            return Set.Include(e => e.Steps).ProjectTo<TR>(mapper.ConfigurationProvider).ToPagedListAsync(pageIndex, pageLimit);
+        }
 
         public Task<List<Life>> GetByIntegrator(long integratorId)
         {

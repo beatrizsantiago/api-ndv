@@ -14,7 +14,8 @@ namespace WebApplication.Profiles
     {
         public LifeProfile()
         {
-            CreateMap<Life, PreviewLifeViewModel>();
+            CreateMap<Life, PreviewLifeViewModel>()
+                .ForMember(dest => dest.Legend, options => options.MapFrom(src => GetLegend(src)));
             CreateMap<Life, DetailsLifeViewModel>()
                 .ForMember(dest => dest.HistoricPropheticWay, options => options.MapFrom(src => GetList(src)));
             CreateMap<User, PreviewIntegratorViewModel>();
@@ -37,7 +38,42 @@ namespace WebApplication.Profiles
                     step.Date = currentMap.DoneDate;
             }
 
+            var stepConverted = steps.First(s => s.Step == StepsPropheticWay.Converted);
+            var stepReconsiliated = steps.First(s => s.Step == StepsPropheticWay.Reconsiliated);
+
+            if (stepReconsiliated.Date is null)
+            {
+                steps.Remove(stepReconsiliated);
+            }
+            else
+            {
+                steps.Remove(stepConverted);
+            }
+
             return steps;
+        }
+
+        public static LegendLife GetLegend(Life life)
+        {
+            var steps = life.Steps;
+            var actualStep = steps.OrderBy(step => step.Step).First();
+
+            if (life.IsLost)
+            {
+                return LegendLife.LostLife;
+            }
+            else if (DateTime.Now.Year - life.Birthday.Year > 10)
+            {
+                return LegendLife.IsChild;
+            }
+            else if (actualStep.Step == StepsPropheticWay.ClassChristianLife || actualStep.Step == StepsPropheticWay.ClassLeaderCap)
+            {
+                return LegendLife.InClasses;
+            }
+            else
+            {
+                return LegendLife.None;
+            }
         }
     }
 }

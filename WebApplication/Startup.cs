@@ -55,8 +55,8 @@ namespace WebApplication
                     options.Password.RequiredLength = 6;
                     options.Password.RequiredUniqueChars = 0;
                     options.Password.RequireLowercase = true;
-                    options.Password.RequireUppercase = true;
-                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
                 })
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();

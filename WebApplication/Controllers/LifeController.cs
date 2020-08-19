@@ -80,6 +80,7 @@ namespace WebApplication.Controllers
         public async Task<IActionResult> List(int pageIndex = 1, int pageLimit = 10)
         {
             var lifes = await _lifeService.GetAs<PreviewLifeViewModel>(pageIndex, pageLimit);
+            
             return Ok(lifes);
         }
 
@@ -93,7 +94,7 @@ namespace WebApplication.Controllers
         [HttpPut("add-life-step")]
         public async Task<IActionResult> AddLifeStep([FromBody] AddStepLifeViewModel viewModel)
         {
-            var life = await _lifeService.FindById(viewModel.IdLife);
+            var life = await _lifeService.FindById(viewModel.LifeId);
             life.Steps.Add(new ProgressStepsLife{
                 CreatedDate = DateTime.Now,
                 Step = viewModel.Step,

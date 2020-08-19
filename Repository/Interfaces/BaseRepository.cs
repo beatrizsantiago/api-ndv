@@ -38,7 +38,7 @@ namespace Repository.Interfaces
             return Set.ToPagedListAsync(pageIndex, pageLimit);
         }
 
-        public Task<IPagedList<TR>> GetAs<TR>(int pageIndex, int pageLimit)
+        public virtual Task<IPagedList<TR>> GetAs<TR>(int pageIndex, int pageLimit)
         {
             return Set.ProjectTo<TR>(mapper.ConfigurationProvider).ToPagedListAsync(pageIndex, pageLimit);
         }

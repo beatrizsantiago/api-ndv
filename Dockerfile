@@ -10,7 +10,7 @@ COPY Infrastructure/*.csproj ./Infrastructure/
 COPY Repository/*.csproj ./Repository/
 COPY WebApplication/*.csproj ./WebApplication/
 
-RUN dotnet restore --disable-parallel
+RUN dotnet restore
 COPY . .
 
 WORKDIR /src/Domain
