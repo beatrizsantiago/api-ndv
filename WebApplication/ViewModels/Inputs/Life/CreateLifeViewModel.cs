@@ -8,7 +8,7 @@ namespace WebApplication.ViewModels.Inputs.Life
         public string FullName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public DateTime Birthday { get; set; }
+        public int Age { get; set; }
         public bool BaptismOtherChurch { get; set; }
         public string BaptismMinister { get; set; }
         public bool BaptismToday { get; set; }

@@ -43,7 +43,7 @@ namespace WebApplication.Controllers
                 FullName = viewModel.FullName,
                 Phone = viewModel.Phone,
                 Email = viewModel.Email,
-                Birthday = viewModel.Birthday,
+                Age = viewModel.Age,
                 BaptismOtherChurch = viewModel.BaptismOtherChurch,
                 BaptismMinister = viewModel.BaptismMinister
             };
@@ -129,7 +129,7 @@ namespace WebApplication.Controllers
             life.FullName = viewModel.FullName;
             life.Phone = viewModel.Phone;
             life.Email = viewModel.Email;
-            life.Birthday = viewModel.Birthday;
+            life.Age = viewModel.Age;
             life.IntegratorId = viewModel.IntegratorId;
 
             try

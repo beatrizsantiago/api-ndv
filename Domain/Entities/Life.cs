@@ -14,7 +14,7 @@ namespace Domain.Entities
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public DateTime Birthday { get; set; }
+        public int Age { get; set; }
         public bool IsLost { get; set; }
         public bool BaptismOtherChurch { get; set; }
         public string BaptismMinister { get; set; }

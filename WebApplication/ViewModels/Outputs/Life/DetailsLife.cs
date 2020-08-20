@@ -11,7 +11,7 @@ namespace WebApplication.ViewModels.Output.Life
         public string FullName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public DateTime Birthday { get; set; }
+        public int Age { get; set; }
         public PreviewIntegratorViewModel Integrator { get; set; }
         public List<PreviewFeedbackViewModel> Feedbacks { get; set; }
         public List<ProgressStepsViewModel> HistoricPropheticWay { get; set; }
