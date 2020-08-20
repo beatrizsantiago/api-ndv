@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using WebApplication.ViewModels.Inputs.CreateFeedback;
 using WebApplication.ViewModels.Inputs.Life;
+using WebApplication.ViewModels.Inputs.Visitant;
 using WebApplication.ViewModels.Output.Life;
+using WebApplication.ViewModels.Output.Visitant;
 
 namespace WebApplication.Controllers
 {
@@ -21,13 +23,15 @@ namespace WebApplication.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILifeService _lifeService;
         private readonly IFeedbackService _feedbackService;
+        private readonly IVisitantService _visitantService;
         private readonly IMapper _mapper;
 
-        public LifeController(UserManager<User> userManager, ILifeService lifeService, IFeedbackService feedbackService, IMapper mapper)
+        public LifeController(UserManager<User> userManager, ILifeService lifeService, IFeedbackService feedbackService, IVisitantService visitantService, IMapper mapper)
         {
             _userManager = userManager;
             _lifeService = lifeService;
             _feedbackService = feedbackService;
+            _visitantService = visitantService;
             _mapper = mapper;
         }
 
@@ -191,6 +195,37 @@ namespace WebApplication.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost("create-visitant")]
+        public async Task<IActionResult> CreateVisitant([FromBody] CreateVisitantViewModel viewModel)
+        {
+            var visitant = new Visitant
+            {
+                FullName = viewModel.FullName,
+                Phone = viewModel.Phone,
+                FrequentOtherChurch = viewModel.FrequentOtherChurch,
+                Companion = viewModel.Companion
+            };
+
+            try
+            {
+                await _visitantService.Save(visitant);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpGet("list-visitants")]
+        public async Task<IActionResult> ListVisitants(int pageIndex = 1, int pageLimit = 10)
+        {
+            var visitants = await _visitantService.GetAs<PreviewVisitantViewModel>(pageIndex, pageLimit);
+            
+            return Ok(visitants);
         }
     }
 }

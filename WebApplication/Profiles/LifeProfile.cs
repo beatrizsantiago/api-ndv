@@ -7,6 +7,7 @@ using Domain.Enums;
 using WebApplication.ViewModels.Output.Account;
 using WebApplication.ViewModels.Output.Feedback;
 using WebApplication.ViewModels.Output.Life;
+using WebApplication.ViewModels.Output.Visitant;
 
 namespace WebApplication.Profiles
 {
@@ -22,6 +23,7 @@ namespace WebApplication.Profiles
             CreateMap<Feedback, PreviewFeedbackViewModel>()
                 .ForMember(dest => dest.Integrator, options => options.MapFrom(src => src.Integrator.Name));
             CreateMap<ProgressStepsLife, ProgressStepsViewModel>();
+            CreateMap<Visitant, PreviewVisitantViewModel>();
         }
 
         public static List<ProgressStepsViewModel> GetList(Life life)

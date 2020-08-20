@@ -12,6 +12,7 @@ namespace Repository
         public DbSet<Life> Lifes { get; set; }
         public DbSet<ProgressStepsLife> ProgressStepsLifes { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Visitant> Visitants { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
