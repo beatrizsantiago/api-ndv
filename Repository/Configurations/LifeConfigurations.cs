@@ -14,6 +14,8 @@ namespace Repository.Configurations
             builder.Property(e => e.IsLost).HasDefaultValue(false);
             builder.Property(e => e.BaptismOtherChurch).HasDefaultValue(false);
             builder.Property(e => e.BaptismMinister).HasMaxLength(200);
+            builder.Property(e => e.FrequentOtherChurch).HasDefaultValue(false);
+            builder.Property(e => e.Companion).HasMaxLength(200);
         }
     }
 }

@@ -20,15 +20,13 @@ namespace WebApplication.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILifeService _lifeService;
         private readonly IFeedbackService _feedbackService;
-        private readonly IVisitantService _visitantService;
         private readonly IMapper _mapper;
 
-        public LifeController(UserManager<User> userManager, ILifeService lifeService, IFeedbackService feedbackService, IVisitantService visitantService, IMapper mapper)
+        public LifeController(UserManager<User> userManager, ILifeService lifeService, IFeedbackService feedbackService, IMapper mapper)
         {
             _userManager = userManager;
             _lifeService = lifeService;
             _feedbackService = feedbackService;
-            _visitantService = visitantService;
             _mapper = mapper;
         }
 
@@ -97,8 +95,8 @@ namespace WebApplication.Controllers
             return Ok(lifes);
         }
 
-        [HttpPut("lifes/step")]
-        public async Task<IActionResult> AddLifeStep([FromBody] AddStepLifeViewModel viewModel)
+        [HttpPut("lifes/steps")]
+        public async Task<IActionResult> AddStepLife([FromBody] AddStepLifeViewModel viewModel)
         {
             var life = await _lifeService.FindById(viewModel.LifeId);
             life.Steps.Add(new ProgressStepsLife{
@@ -157,7 +155,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost("lifes/lost/{id}")]
-        public async Task<IActionResult> LifeLost(long id)
+        public async Task<IActionResult> LostLife(long id)
         {
             var life = await _lifeService.FindById(id);
             life.IsLost = true;
@@ -172,8 +170,8 @@ namespace WebApplication.Controllers
             }
         }
 
-        [HttpPost("lifes/feedback")]
-        public async Task<IActionResult> NewFeedback([FromBody] CreateFeedbackViewModel viewModel)
+        [HttpPost("lifes/feedbacks")]
+        public async Task<IActionResult> NewFeedbackLife([FromBody] CreateFeedbackViewModel viewModel)
         {
             var feedback = new Feedback{
                 LifeId = viewModel.LifeId,
@@ -194,10 +192,17 @@ namespace WebApplication.Controllers
             }
         }
 
+        [HttpGet("lifes/report")]
+        public async Task<IActionResult> ReportLife(DateTime? initDate, DateTime? endDate)
+        {
+            var report = await _lifeService.ReportStepsByPeriod(initDate??DateTime.Now.AddMonths(-1), endDate??DateTime.Now);
+            return Ok(report);
+        }
+
         [HttpPost("visitants")]
         public async Task<IActionResult> CreateVisitant([FromBody] CreateVisitantViewModel viewModel)
         {
-            var visitant = new Visitant
+            var visitant = new Life
             {
                 FullName = viewModel.FullName,
                 Phone = viewModel.Phone,
@@ -205,9 +210,18 @@ namespace WebApplication.Controllers
                 Companion = viewModel.Companion
             };
 
+            var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            visitant.IntegratorId = user.Id;
+
+            visitant.Steps.Add(new ProgressStepsLife
+            {
+                Step = StepsPropheticWay.Visitor,
+                DoneDate = DateTime.Now,
+            });
+
             try
             {
-                await _visitantService.Save(visitant);
+                await _lifeService.Save(visitant);
                 return Ok();
             }
             catch
@@ -220,7 +234,7 @@ namespace WebApplication.Controllers
         [HttpGet("visitants")]
         public async Task<IActionResult> ListVisitants(int pageIndex = 1, int pageLimit = 10)
         {
-            var visitants = await _visitantService.GetAs<PreviewVisitantViewModel>(pageIndex, pageLimit);
+            var visitants = await _lifeService.GetAs<PreviewVisitantViewModel>(pageIndex, pageLimit);
             
             return Ok(visitants);
         }

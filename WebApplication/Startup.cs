@@ -73,7 +73,6 @@ namespace WebApplication
             services.AddScoped<ILifeService, LifeService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddScoped<IProgressStepsLifeService, ProgressStepsLifeService>();
-            services.AddScoped<IVisitantService, VisitantService>();
 
             services.AddAutoMapper(GetType().Assembly);
 

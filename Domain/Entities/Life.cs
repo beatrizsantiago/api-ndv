@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Domain.Entities
 {
@@ -18,7 +20,12 @@ namespace Domain.Entities
         public bool IsLost { get; set; }
         public bool BaptismOtherChurch { get; set; }
         public string BaptismMinister { get; set; }
+        public bool FrequentOtherChurch { get; set; }
+        public string Companion { get; set; }
         public long IntegratorId { get; set; }
+
+        [NotMapped]
+        public ProgressStepsLife LastStep => Steps.OrderByDescending(step => step.DoneDate).FirstOrDefault();
 
         public virtual User Integrator { get; set; }
         public virtual List<Feedback> Feedbacks { get; set; }
