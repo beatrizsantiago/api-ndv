@@ -64,7 +64,7 @@ namespace WebApplication.Profiles
             {
                 return LegendLife.LostLife;
             }
-            else if (life.Age <= 10)
+            else if (life.Age > 0 && life.Age <= 10)
             {
                 return LegendLife.IsChild;
             }
