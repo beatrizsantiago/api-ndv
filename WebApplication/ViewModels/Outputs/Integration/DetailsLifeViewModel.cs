@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using WebApplication.ViewModels.Output.Account;
-using WebApplication.ViewModels.Output.Feedback;
 
-namespace WebApplication.ViewModels.Output.Life
+namespace WebApplication.ViewModels.Output.Integration
 {
     public class DetailsLifeViewModel
     {

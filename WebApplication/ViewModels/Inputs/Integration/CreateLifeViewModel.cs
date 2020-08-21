@@ -1,7 +1,7 @@
 using System;
 using Domain.Enums;
 
-namespace WebApplication.ViewModels.Inputs.Life
+namespace WebApplication.ViewModels.Inputs.Integration
 {
     public class CreateLifeViewModel
     {

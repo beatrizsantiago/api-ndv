@@ -1,5 +1,5 @@
 
-namespace WebApplication.ViewModels.Inputs.CreateFeedback
+namespace WebApplication.ViewModels.Inputs.Integration
 {
     public class CreateFeedbackViewModel
     {

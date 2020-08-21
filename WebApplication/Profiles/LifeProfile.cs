@@ -5,9 +5,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using WebApplication.ViewModels.Output.Account;
-using WebApplication.ViewModels.Output.Feedback;
-using WebApplication.ViewModels.Output.Life;
-using WebApplication.ViewModels.Output.Visitant;
+using WebApplication.ViewModels.Output.Integration;
 
 namespace WebApplication.Profiles
 {

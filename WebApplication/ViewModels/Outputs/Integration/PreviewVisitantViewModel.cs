@@ -1,13 +1,13 @@
-using System;
+using Domain.Enums;
 
-namespace WebApplication.ViewModels.Inputs.Visitant
+namespace WebApplication.ViewModels.Output.Integration
 {
-    public class CreateVisitantViewModel
+    public class PreviewVisitantViewModel
     {
+        public long Id { get; set; }
         public string FullName { get; set; }
         public string Phone { get; set; }
         public bool FrequentOtherChurch { get; set; }
         public string Companion { get; set; }
-        
     }
 }

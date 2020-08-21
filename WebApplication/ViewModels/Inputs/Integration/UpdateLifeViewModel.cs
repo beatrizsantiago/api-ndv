@@ -1,6 +1,6 @@
 using System;
 
-namespace WebApplication.ViewModels.Inputs.Life
+namespace WebApplication.ViewModels.Inputs.Integration
 {
     public class UpdateLifeViewModel
     {

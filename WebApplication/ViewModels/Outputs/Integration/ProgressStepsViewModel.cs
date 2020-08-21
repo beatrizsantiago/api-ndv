@@ -1,7 +1,7 @@
 using System;
 using Domain.Enums;
 
-namespace WebApplication.ViewModels.Output.Life
+namespace WebApplication.ViewModels.Output.Integration
 {
     public class ProgressStepsViewModel
     {

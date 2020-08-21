@@ -8,15 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
-using WebApplication.ViewModels.Inputs.CreateFeedback;
-using WebApplication.ViewModels.Inputs.Life;
-using WebApplication.ViewModels.Inputs.Visitant;
-using WebApplication.ViewModels.Output.Life;
-using WebApplication.ViewModels.Output.Visitant;
+using WebApplication.ViewModels.Inputs.Integration;
+using WebApplication.ViewModels.Output.Integration;
 
 namespace WebApplication.Controllers
 {
-    [Route("api/lifes")]
+    [Route("api/integration")]
     [Authorize("Bearer")]
     public class LifeController : Controller
     {
@@ -35,8 +32,8 @@ namespace WebApplication.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateLifeViewModel viewModel)
+        [HttpPost("lifes")]
+        public async Task<IActionResult> CreateLife([FromBody] CreateLifeViewModel viewModel)
         {
             var life = new Life
             {
@@ -84,8 +81,8 @@ namespace WebApplication.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> List(int pageIndex = 1, int pageLimit = 10)
+        [HttpGet("lifes")]
+        public async Task<IActionResult> ListLifes(int pageIndex = 1, int pageLimit = 10)
         {
             var lifes = await _lifeService.Get(pageIndex, pageLimit);
             var mappedLifes = _mapper.Map<List<PreviewLifeViewModel>>(lifes);
@@ -93,14 +90,14 @@ namespace WebApplication.Controllers
             return Ok(mappedLifes);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Details(long id)
+        [HttpGet("lifes/{id}")]
+        public async Task<IActionResult> DetailsLife(long id)
         {
             var lifes = await _lifeService.FindByIdAs<DetailsLifeViewModel>(id);
             return Ok(lifes);
         }
 
-        [HttpPut("add-life-step")]
+        [HttpPut("lifes/step")]
         public async Task<IActionResult> AddLifeStep([FromBody] AddStepLifeViewModel viewModel)
         {
             var life = await _lifeService.FindById(viewModel.LifeId);
@@ -121,8 +118,8 @@ namespace WebApplication.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateLifeViewModel viewModel)
+        [HttpPut("lifes")]
+        public async Task<IActionResult> UpdateLife([FromBody] UpdateLifeViewModel viewModel)
         {
             var life = await _lifeService.FindById(viewModel.Id);
 
@@ -144,8 +141,8 @@ namespace WebApplication.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
+        [HttpDelete("lifes/{id}")]
+        public async Task<IActionResult> DeleteLife(long id)
         {
             var life = await _lifeService.FindById(id);
             try
@@ -159,7 +156,7 @@ namespace WebApplication.Controllers
             }
         }
 
-        [HttpPost("life-lost/{id}")]
+        [HttpPost("lifes/lost/{id}")]
         public async Task<IActionResult> LifeLost(long id)
         {
             var life = await _lifeService.FindById(id);
@@ -175,7 +172,7 @@ namespace WebApplication.Controllers
             }
         }
 
-        [HttpPost("new-feedback")]
+        [HttpPost("lifes/feedback")]
         public async Task<IActionResult> NewFeedback([FromBody] CreateFeedbackViewModel viewModel)
         {
             var feedback = new Feedback{
@@ -197,7 +194,7 @@ namespace WebApplication.Controllers
             }
         }
 
-        [HttpPost("create-visitant")]
+        [HttpPost("visitants")]
         public async Task<IActionResult> CreateVisitant([FromBody] CreateVisitantViewModel viewModel)
         {
             var visitant = new Visitant
@@ -220,7 +217,7 @@ namespace WebApplication.Controllers
 
         }
 
-        [HttpGet("list-visitants")]
+        [HttpGet("visitants")]
         public async Task<IActionResult> ListVisitants(int pageIndex = 1, int pageLimit = 10)
         {
             var visitants = await _visitantService.GetAs<PreviewVisitantViewModel>(pageIndex, pageLimit);

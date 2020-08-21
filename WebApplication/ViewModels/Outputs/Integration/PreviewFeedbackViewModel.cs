@@ -1,4 +1,4 @@
-namespace WebApplication.ViewModels.Output.Feedback
+namespace WebApplication.ViewModels.Output.Integration
 {
     public class PreviewFeedbackViewModel
     {
